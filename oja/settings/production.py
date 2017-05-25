@@ -17,7 +17,14 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+
+EMAIL_HOST          = 'smtp.sendgrid.net'
+EMAIL_HOST_USER     = 'babskola' #hello@ibro.com
+EMAIL_MAIN          = 'anonhimous@gmail.com'
+EMAIL_HOST_PASSWORD = 'selfmade1'   
+EMAIL_PORT          =  587
+EMAIL_USER_TLS      =  True
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -26,7 +33,43 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'newsletter',
+    'products',
+    'orders',
+    'carts',
+
+    'django.contrib.sites',
+
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
+
+SITE_ID = 1
+
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+
+ACCOUNT_AUTHENTICATION_METHOD =  'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+LOGIN_REDIRECT_URL = '/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

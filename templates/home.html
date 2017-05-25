@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container-fluid">
+
+    {% include 'carousel.html' %}
+    
+    <!--Divider-->
+    <div class="divider-new">
+        <h2 class="h2-responsive">What's new?</h2>
+    </div>
+
+    <!--Section: Products v.1-->
+    <section class="section">
+
+    {% include 'bestsellers.html' %}
+        
+    <hr class="between-sections">
+
+    </section>
+</div>
+{% endblock %}
