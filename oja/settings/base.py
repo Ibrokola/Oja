@@ -20,7 +20,7 @@ ALLOWED_HOSTS = []
 EMAIL_HOST          = 'smtp.sendgrid.net'
 EMAIL_HOST_USER     = 'babskola' #hello@ibro.com
 EMAIL_MAIN          = 'anonhimous@gmail.com'
-EMAIL_HOST_PASSWORD = 'selfmade1'   
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')   
 EMAIL_PORT          =  587
 EMAIL_USER_TLS      =  True
 

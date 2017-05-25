@@ -28,7 +28,7 @@
                    
                     <!-- Excerpt -->
                     <h4><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h4>
-
+                    <div>{{ object.inventory }} Left</div>
                     <!-- Product Description -->
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eum enim laboriosam eius illum iure.</p>
 
@@ -55,6 +55,27 @@
         </div>
     </div>
  </div>   
+</div>
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <form method="POST" action=""> {% csrf_token %}
+                
+                {{ formset.management_form }}
+                
+                {% for form in formset %}
+
+                    {{ form.instance.product.title }}
+                    {{ form.instance.title }}
+                    {{ form.as_p }}
+
+                {% endfor %}
+                <input type="submit" value="Update" class="btn btn-primary waves-effect waves-light">
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /.Main Container -->
 
