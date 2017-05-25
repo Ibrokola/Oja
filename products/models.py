@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
-
+from django.utils.text import slugify
 
 
 class ProductQuerySet(models.query.QuerySet):
@@ -40,8 +40,6 @@ class Product(models.Model):
 		return reverse("product_detail", kwargs={"pk": self.pk})
 
 
-
-
 class Variation(models.Model):
 	product = models.ForeignKey(Product)
 	color = models.CharField(max_length=120)
@@ -78,14 +76,20 @@ def product_post_saved_reciever(sender, instance, created, *args, **kwargs):
 
 post_save.connect(product_post_saved_reciever, sender=Product)
 
+def image_upload_to(instance, filename):
+	title = instance.product.title
+	slug = slugify(title)
+	file_extension = filename.split(".")[1]
+	new_filename = "%s.%s" %(instance.id, file_extension)
+	return "products/%s/%s" %(slug, new_filename)
+
 
 class ProductImage(models.Model):
 	product = models.ForeignKey(Product)
-	image = models.ImageField(upload_to='products/')
+	image = models.ImageField(upload_to=image_upload_to)
 
 	def __str__(self):
 		return self.product.title
-
 
 
 

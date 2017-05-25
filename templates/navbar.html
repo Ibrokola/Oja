@@ -1,3 +1,4 @@
+{% load static %}
 <!--Double navigation-->
 <header>
     <!-- Sidebar navigation -->
@@ -24,9 +25,9 @@
         <!--/Social-->
         <!--Search Form-->
         <li>
-            <form class="search-form" role="search">
+            <form class="search-form" method="GET" role="search" action='{% url "products" %}'>
                 <div class="form-group waves-light">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" placeholder="Search" name="q">
                 </div>
             </form>
         </li>

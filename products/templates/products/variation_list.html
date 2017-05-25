@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+<!-- Main Container -->
+
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <!-- /.Sidebar -->
+        <div class="col-lg-9">
+
+        <section class="section">
+        {% for object in object_list %}
+            <div class="row">
+                <div class="col-lg-5 mb-r">
+                    <!--Featured image-->
+                    <div class="view overlay hm-white-slight">
+                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20%282%29.jpg" class="img-fluid">
+                        <a href="#" data-toggle="modal" data-target="#quick-look-ex">
+                            <div class="mask waves-light">
+                                <div class="flex-center product-quick-look">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-7 mb-r">
+                   
+                    <!-- Excerpt -->
+                    <h4><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h4>
+
+                    <!-- Product Description -->
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eum enim laboriosam eius illum iure.</p>
+
+                    <!-- Review -->
+                    <div class="orange-text">
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                    </div>
+
+                    <p><span class="green-text price"><strong>$69</strong></span> <span class="grey-text"><small><s>$129</s></small></span></p>
+
+                    <!-- Buttons -->
+                    <a class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                    <a class="btn btn-primary waves-effect waves-light"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</a>
+                    <!-- /.Buttons -->
+                    
+                </div>
+            </div>
+        {% endfor %}
+        </section>
+        </div>
+    </div>
+ </div>   
+</div>
+<!-- /.Main Container -->
+
+{% endblock %}
