@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+<!-- Main Container -->
+
+{% block content %}
+<div class="container">
+
+    <div class="row">
+       
+        <!-- Sidebar -->
+        <div class="col-lg-3 filter-menu">
+            <div class="sticky">
+                <!-- Panel -->
+                <h5><strong>BROWSE</strong></h3>
+                <div class="divider"></div>
+
+                <ul>
+                    <li>
+                        <input type="checkbox" id="checkbox1">
+                        <label for="checkbox1">Bags</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox2">
+                        <label for="checkbox2">Booking</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox3">
+                        <label for="checkbox3">Clothing</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox4" checked="checked">
+                        <label for="checkbox4">Shoes</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox5">
+                        <label for="checkbox5">Music</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox6">
+                        <label for="checkbox6">Posters</label>
+                    </li>
+                </ul>
+
+                <!-- Filter by color-->
+                <h5 class="pt-2"><strong>COLOR</strong></h3>
+                <div class="divider"></div>
+
+                <ul>
+                    <li>
+                        <input type="checkbox" id="checkbox9" checked="checked">
+                        <label for="checkbox9">White</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox12">
+                        <label for="checkbox10">Beige</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox11">
+                        <label for="checkbox11">Black</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox12">
+                        <label for="checkbox12">Green</label>
+                    </li>
+                </ul>
+
+                <!-- Filter by size -->
+                <h5 class="pt-2"><strong>SIZE</strong></h3>
+                <div class="divider"></div>
+
+                <ul>
+                    <li>
+                        <input type="checkbox" id="checkbox13">
+                        <label for="checkbox13">Extra Small</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox14">
+                        <label for="checkbox14">Small</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox15" checked="checked">
+                        <label for="checkbox15">Medium</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox16">
+                        <label for="checkbox16">Large</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="checkbox17">
+                        <label for="checkbox17">Extra Large</label>
+                    </li>
+                </ul>
+                <!--/.Panel-->
+                
+            </div>
+            
+        </div>
+        <!-- /.Sidebar -->
+        <div class="col-lg-9">
+
+        <section class="section">
+        {% for object in object_list %}
+            <div class="row">
+                <div class="col-lg-5 mb-r">
+                    <!--Featured image-->
+                    <div class="view overlay hm-white-slight">
+                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20%282%29.jpg" class="img-fluid">
+                        <a href="#" data-toggle="modal" data-target="#quick-look-ex">
+                            <div class="mask waves-light">
+                                <div class="flex-center product-quick-look">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-7 mb-r">
+                   
+                    <!-- Excerpt -->
+                    <h4><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h4>
+
+                    <!-- Product Description -->
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eum enim laboriosam eius illum iure.</p>
+
+                    <!-- Review -->
+                    <div class="orange-text">
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                    </div>
+
+                    <p><span class="green-text price"><strong>$69</strong></span> <span class="grey-text"><small><s>$129</s></small></span></p>
+
+                    <!-- Buttons -->
+                    <a class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                    <a class="btn btn-primary waves-effect waves-light"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</a>
+                    <!-- /.Buttons -->
+                    
+                </div>
+            </div>
+        {% endfor %}
+        </section>
+        </div>
+    </div>
+    
+</div>
+<!-- /.Main Container -->
+
+{% endblock %}
