@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<section class="section">
+
+	<div class="container">
+
+		<div class="col-12 divider-new">
+		    <h2 class="h2-responsive">{{ object }}</h2>
+		</div>
+		                       
+		<!-- First row -->
+		<div class="row container">
+
+		    <!-- First column -->
+		    {% for product in products %}
+		    <div class="col-lg-6 col-sm-6 mb-1">
+		       
+		        <!-- Card -->
+		        <div class="card card-cascade narrower">
+
+		            <!-- Card image -->
+		            <div class="view overlay hm-white-slight">
+
+		            	{% if product.get_image_url %}
+                            <img src="{{ product.get_image_url }}" class="img-responsive fluid" alt="">
+                        {% endif %}
+		                    <div class="mask waves-light">
+		                        <div class="flex-center product-quick-look">
+		                            <i class="fa fa-eye" aria-hidden="true"></i>
+		                        </div>
+		                    </div>
+		                </a>
+		            </div>
+		            <!-- /.Card image -->
+
+		            <!-- Card content -->
+		            <div class="card-block text-center">
+		                <h4 class="card-title"><strong><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></strong></h4>
+
+		                <!-- Rating -->
+		                <ul class="rating">
+		                    <li><i class="fa fa-star"></i></li>
+		                    <li><i class="fa fa-star"></i></li>
+		                    <li><i class="fa fa-star"></i></li>
+		                    <li><i class="fa fa-star"></i></li>
+		                    <li><i class="fa fa-star"></i></li>
+		                </ul>
+
+		                <!-- Description -->
+		                <p class="card-text">{{ product.description }}
+		                </p>
+
+		                <!-- Card footer -->
+		                <div class="card-footer">
+		                    <span class="left">$ {{ product.price }}</span>
+		                    <span class="right">
+		                        <a data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+		                        <a data-toggle="tooltip" data-placement="top" title="Share"><i class="fa fa-share-alt"></i></a>
+		                        <a data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+		                    </span>
+		                </div>
+
+		            </div>
+		            <!-- /.Card content -->
+
+		        </div>
+		        <!-- /.Card -->
+		        
+		    </div>
+		    {% endfor %}
+
+		   </div>
+	</div>
+</section>
+
+
+{% endblock %}
+
+

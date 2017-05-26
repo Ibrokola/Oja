@@ -1,0 +1,68 @@
+<section class="section">
+    <div class="row">
+
+        {% for object in object_list %}
+
+            <div class="col-md-4 col-sm-4 mb-3 {{ col_class_set }}">
+
+                <!-- Card -->
+                <div class="card text-center card-cascade narrower">
+
+                    <!-- Card image -->
+                    <div class="view overlay hm-white-slight">
+                    {% if object.get_image_url %}
+                        <img src="{{ object.get_image_url }}" class="img-responsive" alt="">
+                    {% endif %}
+                        <a>
+                            <div class="mask waves-light"></div>
+                        </a>
+                    </div>
+                    <!-- /.Card image -->
+
+                    <!-- Card content -->
+                    <div class="card-block">
+
+                        <!-- Category & Title -->
+                        <h5>{{ object.product }}</h5>
+                        <h4 class="card-title"><strong><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></strong></h4>
+
+                        <!-- Rating -->
+                        <!-- <ul class="rating">
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star-o"></i></li>
+                        </ul> -->
+
+                        <!-- Description -->
+                        <p class="card-text">{{ object.description }}
+                        </p>
+
+                        <!-- Card footer -->
+                        <div class="card-footer">
+                        
+                            <span class="left">${{ object.variation_set.first.get_html_price }}</span>
+                        
+                            <span class="right">
+                                <a data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>
+                                <a data-toggle="tooltip" data-placement="top" title="Share"><i class="fa fa-share-alt"></i></a>
+                                <a class="active" data-toggle="tooltip" data-placement="top" title="Added to Wishlist"><i class="fa fa-heart"></i></a>
+                            </span>
+                        </div>
+
+                    </div>
+                    <!-- /.Card content -->
+
+                </div>
+                <!-- /.Card -->
+
+            </div>
+                {% if not col_class_set %}
+            {% cycle '' '' '</div><hr/><div class="row">' %}
+                {% endif %}
+            {% endfor %}
+
+        </div>   
+
+</section> 

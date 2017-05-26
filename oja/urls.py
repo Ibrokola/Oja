@@ -11,8 +11,9 @@ from oja.views import home_view
 urlpatterns = [
     url(r'^$', home_view, name='home'),
     url(r'^admin/', admin.site.urls),
-    url(r'^products/', include('products.urls')),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^products/', include('products.urls')),
+    url(r'^categories/', include('products.urls_categories')),
 ]
 
 

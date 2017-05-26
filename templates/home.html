@@ -13,11 +13,16 @@
 
     <!--Section: Products v.1-->
     <section class="section">
-
-    {% include 'bestsellers.html' %}
-        
-    <hr class="between-sections">
-
+        {% include "products/products.html" with object_list=products col_class_set="col-lg-3" %}        
     </section>
+
+    <div class="divider-new">
+        <h2 class="h2-responsive">Recommended products</h2>
+    </div>
+
+    <section class="section">
+        {% include "products/products.html" with object_list=products2 %}        
+    </section>
+    
 </div>
 {% endblock %}

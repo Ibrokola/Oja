@@ -8,7 +8,41 @@ from django.utils import timezone
 
 from .forms import VariationInventoryFormSet
 from .mixins import StaffRequiredMixin, LoginRequiredMixin
-from .models import Product, Variation
+from .models import Product, Variation, Category
+
+
+
+
+
+
+
+class CategoryListView(ListView):
+	model 	 = Category
+	# queryset = Category.objects.all()
+	# template_name = 'products/category_list.html'
+
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(CategoryListView, self).get_context_data(*args, **kwargs)
+		
+		return context 
+
+
+
+
+class CategoryDetailView(DetailView):
+	model = Category
+
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(CategoryDetailView, self).get_context_data(*args, **kwargs)
+		obj = self.get_object()
+		product_set = obj.product_set.all()
+		default_products = obj.default_category.all()
+		products = ( product_set | default_products ).distinct()
+		context['products'] = products
+		return context
+
 
 
 
@@ -58,7 +92,7 @@ class ProductListView(ListView):
 		context = super(ProductListView, self).get_context_data(*args, **kwargs)
 		context['now'] = timezone.now()
 		context['query'] = self.request.GET.get("q")
-		return(context)
+		return context
 
 
 	def get_queryset(self, *args, **kwargs):
@@ -80,8 +114,17 @@ class ProductListView(ListView):
 
 
 
+
+import random
+
 class ProductDetailView(DetailView):
 	model = Product
+
+	def get_context_data(self, *args, **kwargs):
+		context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
+		instance = self.get_object()
+		context['related'] = sorted(Product.objects.get_related(instance)[:6], key=lambda x: random.random())
+		return context
 
 
 

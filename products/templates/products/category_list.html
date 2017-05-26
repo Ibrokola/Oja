@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<section>
+	<div class="container">
+
+	<div class="divider-new">
+        <h2 class="h2-responsive">Product Categories</h2>
+    </div>
+	
+		<div class="row">
+		{% for obj in object_list %}
+			<div class="col-md-4">
+
+			    <div class="card collection-card">
+			        <div class="view hm-zoom">
+
+			        	{% if obj.get_image_url %}
+                            <img src="{{ obj.get_image_url }}" class="img-responsive img-fluid" alt="">
+                        {% else %}
+                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/img%20(5).jpg" class="img-fluid img-responsive" alt="">
+			            <div class="stripe dark">
+                        {% endif %}
+			                <a>
+			                    <a href="{{ obj.get_absolute_url }}"><p>{{ obj.title }}<i class="fa fa-chevron-right"></i></p></a>
+			                </a>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+		{% endfor %}
+		<hr>
+		</div>
+		
+	</div>
+</section>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
