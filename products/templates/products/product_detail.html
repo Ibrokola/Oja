@@ -1,6 +1,35 @@
 {% extends 'base.html' %}
 
 
+<script>
+{% block jquery %}
+
+function setPrice(){
+	var price = $(".variation_select option:selected").attr("data-price")
+	// $("#price").text(price);
+	var sale_price = $(".variation_select option:selected").attr("data-sale-price")
+	if (sale_price != "" && sale_price != "None" && sale_price != null) {
+		$("#price").html("<h3>" + sale_price + "  <small class='og-price' style='color:red; text-decoration:line-through;'>" + price + "</small></h3>");
+	} else{
+		$("#price").html(price);
+	}
+}
+
+setPrice()
+
+// var price = $(".variation_select option:selected").attr("data-price")
+// $("#price").text(price);
+
+$(".variation_select").change(function(){
+
+setPrice()
+
+})
+
+{% endblock %}
+</script>
+
+
 
 {% block content %}
 
@@ -16,8 +45,17 @@
         	{% endif %}
 	        <div class="col-lg-7">
 	            <h2 class="h2-responsive center-on-small-only product-name"><strong>{{ object.title }}</strong></h2>
-	            <h4 class="h4-responsive center-on-small-only"><span class="green-text"><strong>${{ object.price }}</strong></span> <span class="grey-text"><small><s></s></small></span></h4>
+	         {% if object.variation_set.count > 1 %}
+	            <h4 class="h4-responsive center-on-small-only" id="price"><span class="green-text"><strong>{{ object.variation_set.first.price }}</strong></span></h4>
 
+	            {% else %}
+
+				<h4 class="h4-responsive center-on-small-only" id="price"><span class="green-text"><strong>{% if object.variation_set.first.sale_price %}
+							{{ object.variation_set.first.sale_price }}
+							<!-- <small class="og-price">{{ object.variation_set.first.price }}</small>	 -->
+						</strong></span></h4>	            
+						{% endif %}
+			{% endif %}
 	        <!--Accordion wrapper-->
 	        <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
 	            <div class="card">
@@ -68,15 +106,16 @@
 	        <!-- Add to Cart -->
 	        <div class="card-block">
 	            <div class="row">
-	            	{% if object.variation_set.count > 1 %}
+	            	
 	                <div class="col-md-6">
 	                    <div class="md-form">
-	                        <select class="mdb-select colorful-select dropdown-primary">
+	                        <select class="mdb-select colorful-select dropdown-primary variation_select">
 	                        	{% for vari_obj in object.variation_set.all %}
 	                            <!-- <option value="" disabled selected>Choose your option</option> -->
-	                            <option value="{{ vari_obj.id }}">{{ vari_obj.color }}</option>
+	                            <option data-sale-price="{{ vari_obj.sale_price }}" data-price="{{ vari_obj.price }}" value="{{ vari_obj.id }}">{{ vari_obj.color }}</option>
 	                            {% endfor %}
 	                        </select>
+
 	                        <label>Select color</label>
 	                    </div>
 	                </div>
@@ -95,7 +134,7 @@
 	            <div class="row">
 	                <div class="col-md-12 center-on-small-only text-md-right">
 	                    <span class="green-text">Product available</span>
-	                    {% endif %}
+	                    
 	                    <button class="btn btn-primary"><i class="fa fa-cart-plus" aria-hidden="true">
 	                    </i> Add to cart</button>
 	                </div>
