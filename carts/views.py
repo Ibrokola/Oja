@@ -1,4 +1,6 @@
 # from decimal import Decimal
+from allauth.account.forms import LoginForm, SignupForm, ResetPasswordForm
+from allauth.socialaccount.forms import SignupForm
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -137,6 +139,11 @@ class CheckOutView(DetailView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(CheckOutView, self).get_context_data(*args, **kwargs)
+		user_can_continue = False
 		if not self.request.user.is_authenticated():
-			context["user_auth"] = False
+			context["login_form"] = LoginForm()
+			context["next_url"] = self.request.build_absolute_uri()
+		if self.request.user.is_authenticated():
+			user_can_continue = True
+		context["user_can_continue"] = user_can_continue
 		return context 
