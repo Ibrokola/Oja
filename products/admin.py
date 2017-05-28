@@ -16,6 +16,7 @@ class VariationInline(admin.TabularInline):
 class ProductFeaturedInline(admin.TabularInline):
 	model = ProductFeatured
 	extra = 0
+	max_num = 10
 
 
 class ProductAdmin(admin.ModelAdmin):

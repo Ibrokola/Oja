@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from oja.views import home_view
-
+from carts.views import CartView, ItemCountView, CheckOutView
 
 
 
@@ -14,6 +14,9 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^products/', include('products.urls')),
     url(r'^categories/', include('products.urls_categories')),
+    url(r'^cart/$', CartView.as_view(), name='cart'),
+    url(r'^cart/count/$', ItemCountView.as_view(), name='item_count'),
+    url(r'^checkout/$', CheckOutView.as_view(), name='checkout'),
 ]
 
 

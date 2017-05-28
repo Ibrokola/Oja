@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 <script>
 {% block jquery %}
@@ -24,6 +24,36 @@ $(".variation_select").change(function(){
 setPrice()
 
 })
+
+
+$("#submit-btn").click(function(event){
+	event.preventDefault();
+	var formData = $("#add-form").serialize(); 
+	console.log(formData);
+	$.ajax({
+		type: "GET",
+		url: "{% url 'cart' %}",
+		data: formData,
+		success: function(data){
+			showFlashMessage(data.flash_message);
+			updateCartItemCount();
+
+		},
+		error: function(response, error){
+			// console.log(response)
+			// console.log(error)
+			$("#add-form").submit()
+		}
+	})
+
+
+
+	// $("#add-form").submit()
+})
+
+
+
+
 
 {% endblock %}
 </script>
@@ -102,41 +132,47 @@ setPrice()
 
 	        <!-- Add to Cart -->
 	        <div class="card-block">
-	            <div class="row">
-	            	
-	                <div class="col-md-6">
-	                    <div class="md-form">
-	                        <select class="mdb-select colorful-select dropdown-primary variation_select">
-	                        	{% for vari_obj in object.variation_set.all %}
-	                            <!-- <option value="" disabled selected>Choose your option</option> -->
-	                            <option data-sale-price="{{ vari_obj.sale_price }}" data-price="{{ vari_obj.price }}" value="{{ vari_obj.id }}">{{ vari_obj.color }}</option>
-	                            {% endfor %}
-	                        </select>
+	        	<form id="add-form" method="GET" action="{% url 'cart' %}">
+	        	<p id="jquery-message" class="lead">
+	        		
+	        	</p>
+		            <div class="row">
+		                <div class="col-md-6">
+		                    <div class="md-form">
+		                        <select name='item' class="mdb-select colorful-select dropdown-primary variation_select">
+		                        	{% for vari_obj in object.variation_set.all %}
+		                            <!-- <option value="" disabled selected>Choose your option</option> -->
+		                           <option data-sale-price="{{ vari_obj.sale_price }}" data-price="{{ vari_obj.price }}" value="{{ vari_obj.id }}">{{ vari_obj.title }}</option>
+		                            {% endfor %}
+		                        </select>
 
-	                        <label>Select color</label>
-	                    </div>
-	                </div>
-	                <div class="col-md-6">
-	                    <div class="md-form">
-	                        <select class="mdb-select colorful-select dropdown-primary">
-	                        	{% for vari_obj in object.variation_set.all %}
-	                            <!-- <option value="" disabled selected>Choose your option</option> -->
-	                            <option value="{{ vari_obj.id }}">{{ vari_obj.size }}</option>
-	                            {% endfor %}
-	                        </select>
-	                        <label>Select size</label>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="row">
-	                <div class="col-md-12 center-on-small-only text-md-right">
-	                    <span class="green-text">Product available</span>
-	                    
-	                    <button class="btn btn-primary"><i class="fa fa-cart-plus" aria-hidden="true">
-	                    </i> Add to cart</button>
-	                </div>
-	                
-	            </div>
+		                        <label>Select color</label>
+		                    </div>
+		                </div>
+		                <div class="col-md-6">
+		                    <div class="md-form">
+		                        <select class="mdb-select colorful-select dropdown-primary">
+		                        	{% for vari_obj in object.variation_set.all %}
+		                            <!-- <option value="" disabled selected>Choose your option</option> -->
+		                            <option value="{{ vari_obj.id }}">{{ vari_obj.size }}</option>
+		                            {% endfor %}
+		                        </select>
+		                        <label>Select size</label>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="col-md-12 center-on-small-only text-md-right">
+		                    <span class="green-text">Product available</span>
+		                    
+
+		                    <!-- <input type="submit" class="btn btn-primary btn-sm fa fa-cart-plus" value="Add to Cart"/> -->
+		                    <input class="form-control" type="number" name="qty" value='1'>
+		                    <button id="submit-btn" class="btn btn-primary" type="submit"><i class="fa fa-cart-plus" aria-hidden="true">
+		                    </i> Add to cart</button>
+		                </div>  
+		            </div>
+		        </form>
 	        </div>
 	        <!-- /.Add to Cart -->
 
@@ -171,7 +207,7 @@ setPrice()
                     <div class="card-block">
                        
                         <!-- Category & Title -->
-                        <h5>{{ product.category }}</h5>
+                        <h5>{{ product.get_categories }}</h5>
                         <h4 class="card-title"><strong><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></strong></h4>
 
                         <!-- Rating -->

@@ -2,3 +2,13 @@
 	color:red;
 	text-decoration:line-through;
 }
+
+.container-alert-flash{
+	position: absolute;
+	top: 10px;
+	z-index: 50000;
+	width: 100%;
+	right: 0%;
+	margin: 0px;
+	/*display: none;*/
+}

@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<script>
+
+{% block jquery %}
+	$(".item-qty").change(function(){
+		// $(this).next(".btn-update").fadeIn();
+		// event.preventDefault();
+			var item = $(this).prev("input[type='hidden']").val()
+			var qty = $(this).val()
+			var data = {
+				item:item,
+				qty:qty
+			} 
+			console.log(data);
+			$.ajax({
+				type: "GET",
+				url: "{% url 'cart' %}",
+				data: data,
+				success: function(data){
+					$('#jquery-message').text("Added " + data.item_added + " Deleted " + data.deleted)
+					if(data.deleted){
+						$("#item-"+item).fadeOut();
+                        $("#subtotal").text(data.subtotal);
+                        $("#taxtotal").text(data.tax_total);
+                        $("#carttotal").text(data.carttotal);
+					}else{
+						$("#item-line-total-"+item).text(data.line_total);
+						$("#subtotal").text(data.subtotal);
+                        $("#taxtotal").text(data.tax_total);
+                        $("#carttotal").text(data.carttotal);
+					}
+
+					showFlashMessage(data.flash_message);
+                    updateCartItemCount();
+				},
+				error: function(response, error){
+					// console.log(response)
+					// console.log(error)
+					$("#add-form").submit()
+				}
+
+
+	});
+})
+
+{% endblock %}
+
+</script>
+
+
+{% block content %}
+
+
+<!-- {{ object.cartitem_set.all }} -->
+
+
+<div class="container">
+
+    <section class="section">
+
+{% if object.cartitem_set.all < 1 %}
+    <div class='col-sm-6 offset-sm-3 text-center'>
+        <h1>Your cart is empty</h1>
+        <p>Continue Shopping</p>
+    </div>
+    {% else %}
+       
+        <!-- Shopping Cart table -->
+        <div class="table-responsive">
+           
+            <table class="table product-table">
+               
+                <!-- Table head -->
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Product</th>
+                        <th>Color</th>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>QTY</th>
+                        <th>Amount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <!-- /.Table head -->
+    {% for item in object.cartitem_set.all %}
+                <!-- Table body -->
+                <tbody>
+                    <tr id='item-{{ item.item.id }}'>
+                        <th scope="row">
+                            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/shoes.jpg" alt="" class="img-fluid z-depth-0">
+                        </th>
+                        <td>
+                           <h5 class="h5-responsive"><strong>{{ item.item.get_title }}</strong></h5>
+                           
+                            <!-- <p class="text-muted">by FifeSteps</p> -->
+                        </td>
+                        <td>{{ item.item }}</td>
+                        <td>{{ item.item.get_size }}</td>
+                        <td>${{ item.item.get_price }}</td>
+                        
+	                        <td class="center-on-small-only"><form action="." method="GET"><input type="hidden" name="item" value="{{ item.item.id }}">
+	                            <!-- <span class="qty">{{ item.quantity }}</span> -->
+	                            <div class="row">
+		                            <div class="col-6">
+			                            <input type="number" class="item-qty" name="qty" value="{{ item.quantity }}">
+		                            </div>
+		                            <!-- <div class="btn-group radio-group" data-toggle="buttons">
+		                                <label class="btn btn-sm btn-primary btn-rounded">
+		                                  <input type="radio" name="qty" id="option1" value="Update item">&mdash;
+		                                </label>
+		                            </div> -->
+		                            <div class="col-lg-4">
+			                            <input type="submit" name="item" class='btn-update btn-sm btn-primary' value="update item" style="display: none;">
+		                            </div>
+		                        </div>
+	                          <!--   <div class="btn-group radio-group" data-toggle="buttons">
+	                                <label class="btn btn-sm btn-primary btn-rounded">
+	                                    <input type="submit" name="qty" id="option1" value="Update item">
+	                                </label>
+	                                <label class="btn btn-sm btn-primary btn-rounded">
+	                                    <input type="radio" name="qty" id="option2" value="{{ item.quantity }}">+
+	                                </label>
+	                            </div> -->
+	                            </form>
+	                        </td>
+                        
+                        <td id='item-line-total-{{ item.item.id }}'>${{ item.line_item_total }}</td>
+                        <td>
+                            <a href="{{ item.remove }}"><button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Remove item">X
+                            </button></a>
+                        </td>
+                    </tr>
+    {% endfor %}
+
+
+					<tr>
+                        <td colspan="5"></td>
+                        <td>
+                            <h5 class="h5-responsive"><strong>Subtotal</strong></h4></td>
+                        <td>
+                            <h5 id="subtotal" class="h5-responsive"><strong><span id='subtotal'>${{ object.subtotal }}</span></strong></h5></td>
+                        <!-- <td colspan="3">
+                            <button type="button" class="btn btn-primary">Complete purchase <i class="fa fa-angle-right right"></i></button>
+                        </td> -->
+                    </tr>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td>
+                            <h5 class="h5-responsive"><strong>Total Tax (Estimated)</strong></h4></td>
+                        <td>
+                            <h5 id="subtotal" class="h5-responsive"><strong><span id='taxtotal'>${{ object.tax_total }}</span></strong></h5></td>
+                        <!-- <td colspan="3">
+                            <button type="button" class="btn btn-primary">Complete purchase <i class="fa fa-angle-right right"></i></button>
+                        </td> -->
+                    </tr>
+
+
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>
+                            <h4><strong>Total</strong></h4></td>
+                        <td>
+                            <h4><strong><span id='carttotal'>${{ object.total }}</span></strong></h4></td>
+                        <td colspan="3">
+                            <button type="button" class="btn btn-primary">Complete purchase <i class="fa fa-angle-right right"></i></button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+            
+        </div>
+{% endif %}
+    </section>
+
+</div>
+{% endblock %}

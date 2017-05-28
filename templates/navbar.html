@@ -125,7 +125,7 @@
 
         <ul class="nav navbar-nav nav-flex-icons ml-auto">
             <li class="nav-item">
-                <a class="nav-link"> <span class="badge red z-depth-1">2</span> <i class="fa fa-shopping-cart"></i> <span class="hidden-sm-down">Cart</span></a>
+                <a class="nav-link" href='{% url "cart" %}'> <span id="cart-count-badge" class="badge red z-depth-1">2</span> <i class="fa fa-shopping-cart"></i> <span class="hidden-sm-down">Cart</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"><i class="fa fa-envelope"></i> <span class="hidden-sm-down">Contact</span></a>
@@ -141,20 +141,20 @@
                 <a class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">My account</span></a>
             </li>
             {% else %}
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="/accounts/signup/"><i class="fa fa-sign-in"></i> <span class="hidden-sm-down">Register</span></a>
-            </li>
+            </li> -->
             {% if not request.user.is_authenticated and not "/accounts/login/" in request.get_full_path %}
     <!--    <li class="nav-item">
                 <a class="nav-link"><i class="fa fa-sign-in"></i> <span class="hidden-sm-down">My account</span></a>
             </li> -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-user"></i> <span class="hidden-sm-down">Profile</span>
+                    <i class="fa fa-user"></i> <span class="hidden-sm-down">Login</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/accounts/login/">Login</a>
-                    <!-- <a class="dropdown-item" href="#">My account</a> -->
+                    <a class="dropdown-item" href="/accounts/signup/">Register</a>
                 
                 </div>
             </li>

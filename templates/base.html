@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}{% endblock %} Oja</title>
+    <title>{% block title %}{% endblock %}Welcome to Oja</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
@@ -33,19 +33,22 @@
 <body class="fixed-sn mdb-skin">
    
   {% include 'navbar.html' %}
-    {% if messages %}
-        <div class="container">
-            <div class="alert alert-success">
-                {% for message in messages %}
-                <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
-
     <!--Main layout-->
     <main style="min-height: 800px;">
-    {% block content %} {% endblock %}
+    {% block content %} 
+
+        {% if messages %}
+            <div class="container">
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                    <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            </div>  
+        {% endif %}
+
+
+    {% endblock %}
     </main>
     <!--/Main layout-->
 
@@ -59,8 +62,8 @@
 
                 <!--First column-->
                 <div class="col-md-3 offset-md-1">
-                    <h5 class="title">Footer Content</h5>
-                    <p>Here you can use rows and columns here to organize your footer content.</p>
+                    <h5 class="title">Oja</h5>
+                    <p>Your one stop online shop for everything you need.</p>
                 </div>
                 <!--/.First column-->
 
@@ -68,12 +71,12 @@
 
                 <!--Second column-->
                 <div class="col-md-2 offset-md-1">
-                    <h5 class="title">Links</h5>
+                    <h5 class="title">DELIVERY</h5>
                     <ul>
-                        <li><a href="#!">Link 1</a></li>
-                        <li><a href="#!">Link 2</a></li>
-                        <li><a href="#!">Link 3</a></li>
-                        <li><a href="#!">Link 4</a></li>
+                        <li><a href="#!">Online Delivery</a></li>
+                        <li><a href="#!">Delivery Terms & Conditions</a></li>
+                        <li><a href="#!">Instore Delivery</a></li>
+                        <!-- <li><a href="#!">Link 4</a></li> -->
                     </ul>
                 </div>
                 <!--/.Second column-->
@@ -82,12 +85,12 @@
 
                 <!--Third column-->
                 <div class="col-md-2">
-                    <h5 class="title">Links</h5>
+                    <h5 class="title">NEED HELP?</h5>
                     <ul>
-                        <li><a href="#!">Link 1</a></li>
-                        <li><a href="#!">Link 2</a></li>
-                        <li><a href="#!">Link 3</a></li>
-                        <li><a href="#!">Link 4</a></li>
+                        <li><a href="#!">FAQ</a></li>
+                        <li><a href="#!">Contact Us</a></li>
+                        <li><a href="#!">Return Policy</a></li>
+                        <!-- <li><a href="#!">Link 4</a></li> -->
                     </ul>
                 </div>
                 <!--/.Third column-->
@@ -96,13 +99,13 @@
 
                 <!--Fourth column-->
                 <div class="col-md-2">
-                    <h5 class="title">Links</h5>
+                    <!-- <h5 class="title">Summer</h5>
                     <ul>
                         <li><a href="#!">Link 1</a></li>
                         <li><a href="#!">Link 2</a></li>
                         <li><a href="#!">Link 3</a></li>
                         <li><a href="#!">Link 4</a></li>
-                    </ul>
+                    </ul> -->
                 </div>
                 <!--/.Fourth column-->
 
@@ -116,7 +119,7 @@
         <div class="call-to-action wow fadeIn" data-wow-delay="0.3s">
             <ul>
                 <li>
-                    <h5>Register for free</h5></li>
+                    <h5>Register</h5></li>
                 <li><a href="" class="btn btn-danger">Sign up!</a></li>
             </ul>
         </div>
@@ -165,6 +168,8 @@
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
 
+    <script type="text/javascript" src="{% static 'js/style.js' %}"></script>
+
     <script>
         // SideNav init
         $(".button-collapse").sideNav();
@@ -184,6 +189,30 @@
            {% block jquery %}
            {% endblock %}
         });
+
+    </script>
+
+    <script>
+
+    function updateCartItemCount(){
+        var badge = $("#cart-count-badge");
+
+            $.ajax({
+                type: "GET",
+                url: "{% url 'item_count' %}",
+                success:function(data){
+                    badge.text(data.count);
+                },
+                error: function(response, error){
+                    console.log(response);
+                    console.log(error);
+                }
+            })
+        }
+        
+        $(document).ready(function(){
+            updateCartItemCount()    
+        })
 
     </script>
 

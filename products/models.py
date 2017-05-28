@@ -65,7 +65,7 @@ class Product(models.Model):
 
 class Variation(models.Model):
 	product = models.ForeignKey(Product)
-	color = models.CharField(max_length=120, null=True, blank=True)
+	title = models.CharField(max_length=120, null=True, blank=True)
 	size = models.IntegerField(null=True, blank=True)
 	price = models.DecimalField(decimal_places=2, max_digits=20, null=True)
 	sale_price = models.DecimalField(decimal_places=2, max_digits=20, null=True, blank=True)
@@ -74,13 +74,17 @@ class Variation(models.Model):
 
 
 	def __str__(self):
-		return self.color
+		return self.title
 
 	def get_price(self):
 		if self.sale_price is not None:
-			return self.sale_price
+			return int(self.sale_price)
 		else:
-			return self.price
+			return int(self.price)
+
+	def get_size(self):
+		return self.size
+		
 
 
 	def get_html_price(self):
@@ -93,6 +97,16 @@ class Variation(models.Model):
 
 	def get_absolute_url(self):
 		return self.product.get_absolute_url()
+
+
+	def add_to_cart(self):
+		return "%s?item=%s&qty=1" %(reverse("cart"), self.id)
+
+	def remove_from_cart(self):
+		return "%s?item=%s&qty=1&delete=True" %(reverse("cart"), self.id)
+
+	def get_title(self):
+		return "%s" %(self.product.title)
 
 
 def product_post_saved_reciever(sender, instance, created, *args, **kwargs):
@@ -143,16 +157,20 @@ class Category(models.Model):
 
 
 def image_upload_to_category(instance, filename):
-	title = instance.product.title
+	title = instance.category.title
 	slug = slugify(title)
 	file_extension = filename.split(".")[1]
 	new_filename = "%s.%s" %(instance.id, file_extension)
 	return "categories/%s/%s" %(slug, new_filename)
 
 class CategoryImage(models.Model):
-	product = models.ForeignKey(Product)
+	# product = models.ForeignKey(Product)
+	category = models.ForeignKey(Category)
 	image = models.ImageField(upload_to=image_upload_to_category)
 
+
+	def __str__(self):
+		return self.category.title
 
 
 
