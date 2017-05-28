@@ -1,46 +1,29 @@
 {% extends "base.html" %}
-{% load socialaccount %}
+<!-- {% load socialaccount %} -->
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 
 
 
 {% block content %}
 
-
-
 {% if not user_can_continue %}
 <div class="row">
 	<div class="col-sm-6">
 		<p class="lead">Continue as Guest</p>
-<!-- 		{% get_providers as socialaccount_providers %}
-
-			{% if socialaccount_providers %}
-			<p>{% blocktrans with site.name as site_name %}Please sign in with one
-			of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-			for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
-
-			<div class="socialaccount_ballot">
-
-			  <ul class="socialaccount_providers">
-			    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-			  </ul>
-
-			  <div class="login-or">{% trans 'or' %}</div>
-
-			</div>
-
-			{% include "socialaccount/snippets/login_extra.html" %}
-
-		{% endif %} -->
-
+		<form method='POST' action=''>{% csrf_token %}
+			{{ form|crispy }}
+		<input type="hidden" name="next" value="{{ next_url }}">
+		<input type="submit" class="btn btn-primary btn-sm" value="Continue as Guest">
+		</form>
 	</div>
 	<div class="col-sm-6">
 		<div class="container">
 		<p class="lead">Login to Continue</p>
 			<form method='POST' action="{% url 'account_login' %}"> {% csrf_token %}
 
-			{{ login_form }}
+			{{ login_form|crispy }}
 
 			<input type="hidden" name="next" value="{{ next_url }}">
 			<input type='submit' class="btn btn-primary btn-sm" value='login'>
@@ -52,9 +35,22 @@
 		</div>
 	</div>
 </div>
+{% else %}
+
+<p class="lead">
+Your Order
+</p>
+<table class="table">
+	<tr><td>Item Subtotal: {{ order.cart.subtotal }}</td></tr>
+	<tr><td>Tax: {{ order.cart.tax_total }}</td></tr>
+	<tr><td>Item Total: {{ order.cart.total }}</td></tr>
+	<tr><td>Shipping: {{ order.shipping_total_price }}</td></tr>
+	<tr><td>Order Total: {{ order.order_total }}</td></tr>	
+</table>
+
+
 {% endif %}
 
 
 
 {% endblock %}
-
